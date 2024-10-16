@@ -178,6 +178,45 @@ fun ItemInputForm(
             enabled = enabled,
             singleLine = true
         )
+        OutlinedTextField(
+            value = itemDetails.agentName,
+            onValueChange = { onValueChange(itemDetails.copy(agentName = it)) },
+            label = { Text(stringResource(R.string.agent_name_req)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = itemDetails.agentEmail,
+            onValueChange = { onValueChange(itemDetails.copy(agentEmail = it)) },
+            label = { Text(stringResource(R.string.agent_email_req)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = itemDetails.agentPhoneNumber,
+            onValueChange = { onValueChange(itemDetails.copy(agentPhoneNumber = it)) },
+            label = { Text(stringResource(R.string.agent_phone_number_req)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),
@@ -193,7 +232,12 @@ private fun ItemEntryScreenPreview() {
     InventoryTheme {
         ItemEntryBody(itemUiState = ItemUiState(
             ItemDetails(
-                name = "Item name", price = "10.00", quantity = "5"
+                name = "Item name",
+                price = "10.00",
+                quantity = "5",
+                agentName = "Bob",
+                agentEmail = "bob@gmail.com",
+                agentPhoneNumber = "+78005553535"
             )
         ), onItemValueChange = {}, onSaveClick = {})
     }

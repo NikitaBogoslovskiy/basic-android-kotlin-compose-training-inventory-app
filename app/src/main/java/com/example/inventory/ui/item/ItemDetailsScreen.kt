@@ -223,6 +223,36 @@ fun ItemDetails(
                     )
                 )
             )
+            ItemDetailsRow(
+                labelResID = R.string.agent_name,
+                itemDetail = item.agentName,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                )
+            )
+            ItemDetailsRow(
+                labelResID = R.string.agent_email,
+                itemDetail = item.agentEmail,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                )
+            )
+            ItemDetailsRow(
+                labelResID = R.string.agent_phone_number,
+                itemDetail = item.agentPhoneNumber,
+                modifier = Modifier.padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen
+                            .padding_medium
+                    )
+                )
+            )
         }
 
     }
@@ -264,7 +294,7 @@ private fun DeleteConfirmationDialog(
 fun ItemDetailsScreenPreview() {
     InventoryTheme {
         ItemDetailsBody(ItemDetailsUiState(
-            outOfStock = true, itemDetails = ItemDetails(1, "Pen", "$100", "10")
+            outOfStock = true, itemDetails = ItemDetails(1, "Pen", "$100", "10", "Bob", "bob@gmail.com", "+78005553535")
         ), onSellItem = {}, onDelete = {})
     }
 }
