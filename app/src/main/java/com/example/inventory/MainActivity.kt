@@ -16,6 +16,7 @@
 package com.example.inventory
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,17 +24,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.inventory.ui.AppViewModelProvider
-import com.example.inventory.ui.item.ItemDetailsViewModel
 import com.example.inventory.ui.theme.InventoryTheme
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,5 +56,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        SharedData.preferences = Preferences(this)
     }
 }

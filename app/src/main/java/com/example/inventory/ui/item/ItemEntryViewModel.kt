@@ -25,6 +25,8 @@ import com.example.inventory.data.Item
 import com.example.inventory.data.ItemsRepository
 import java.text.NumberFormat
 import android.util.Patterns
+import com.example.inventory.Preferences
+import com.example.inventory.SharedData
 
 /**
  * ViewModel to validate and insert items in the Room database.
@@ -34,7 +36,17 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
     /**
      * Holds current item ui state
      */
-    var itemUiState by mutableStateOf(ItemUiState())
+    private val useDefaultItemsQuantity = SharedData.preferences.sharedPreferences.getBoolean(
+        Preferences.USE_DEFAULT_ITEMS_QUANTITY,
+        false
+    )
+    private val defaultItemsQuantity = SharedData.preferences.sharedPreferences.getInt(
+        Preferences.DEFAULT_ITEMS_QUANTITY,
+        1
+    )
+    var itemUiState by mutableStateOf(ItemUiState(
+        itemDetails = if (useDefaultItemsQuantity) ItemDetails(quantity = defaultItemsQuantity.toString()) else ItemDetails()
+    ))
         private set
 
     /**
