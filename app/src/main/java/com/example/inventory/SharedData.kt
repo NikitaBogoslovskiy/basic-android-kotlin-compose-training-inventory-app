@@ -2,6 +2,8 @@ package com.example.inventory
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ShareData(val text: String = "")
@@ -12,7 +14,7 @@ object SharedData {
 }
 
 class Preferences(context: Context) {
-    val masterKey: MasterKey = Builder(context)
+    val masterKey: MasterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         .build()
     val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(

@@ -33,7 +33,7 @@ class SettingsViewModel : ViewModel() {
         hideImportantData = SharedData.preferences.sharedPreferences.getBoolean(HIDE_IMPORTANT_DATA, false),
         prohibitSendingData = SharedData.preferences.sharedPreferences.getBoolean(PROHIBIT_SENDING_DATA, false),
         useDefaultItemsQuantity = SharedData.preferences.sharedPreferences.getBoolean(USE_DEFAULT_ITEMS_QUANTITY, false),
-        defaultItemsQuantity = SharedData.preferences.sharedPreferences.getInt(DEFAULT_ITEMS_QUANTITY, 1)
+        defaultItemsQuantity = SharedData.preferences.sharedPreferences.getString(DEFAULT_ITEMS_QUANTITY, "1")!!
     ))
         private set
 
@@ -48,13 +48,12 @@ class SettingsViewModel : ViewModel() {
         editor.putBoolean(HIDE_IMPORTANT_DATA, settingsUiState.hideImportantData)
         editor.putBoolean(PROHIBIT_SENDING_DATA, settingsUiState.prohibitSendingData)
         editor.putBoolean(USE_DEFAULT_ITEMS_QUANTITY, settingsUiState.useDefaultItemsQuantity)
-        editor.putInt(DEFAULT_ITEMS_QUANTITY, settingsUiState.defaultItemsQuantity)
+        editor.putString(DEFAULT_ITEMS_QUANTITY, settingsUiState.defaultItemsQuantity)
         editor.apply()
     }
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
-
     }
 }
 
@@ -62,5 +61,5 @@ data class SettingsUiState(
     val hideImportantData: Boolean = false,
     val prohibitSendingData: Boolean = false,
     val useDefaultItemsQuantity: Boolean = false,
-    val defaultItemsQuantity: Int = 1
+    val defaultItemsQuantity: String = "1"
 )

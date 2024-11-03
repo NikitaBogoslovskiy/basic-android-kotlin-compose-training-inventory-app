@@ -25,13 +25,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
@@ -99,8 +102,14 @@ fun SettingsScreen(
         SettingsBody(
             settingsUiState = viewModel.settingsUiState,
             onSettingsChanged = viewModel::update,
-            modifier = modifier.fillMaxSize(),
-            contentPadding = innerPadding,
+            modifier = Modifier
+                .padding(
+                    start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                    top = innerPadding.calculateTopPadding(),
+                    end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+                )
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
         )
     }
 }
@@ -110,11 +119,11 @@ private fun SettingsBody(
     settingsUiState: SettingsUiState,
     onSettingsChanged: (SettingsUiState) -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        horizontalAlignment = Alignment.Start,
+        //verticalArrangement = Arrangement.Top,
+        modifier = modifier.padding(15.dp, 5.dp),
     ) {
         SettingCheckbox(
             label = "Hide important data",
@@ -142,9 +151,9 @@ private fun SettingsBody(
 
         if (settingsUiState.useDefaultItemsQuantity) {
             OutlinedTextField(
-                value = settingsUiState.defaultItemsQuantity.toString(),
+                value = settingsUiState.defaultItemsQuantity,
                 onValueChange = {
-                    onSettingsChanged(settingsUiState.copy(defaultItemsQuantity = it.toInt()))
+                    onSettingsChanged(settingsUiState.copy(defaultItemsQuantity = it))
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 label = { Text("Default items quantity") },
@@ -153,7 +162,6 @@ private fun SettingsBody(
                     unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                     disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 ),
-                modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
         }
@@ -167,12 +175,22 @@ private fun SettingCheckbox(
     onValueChanged: (Boolean) -> Unit
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(label)
         Checkbox(
             checked = checked,
             onCheckedChange = onValueChanged
+        )
+        Text(label)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SettingsPreview() {
+    InventoryTheme {
+        SettingsScreen(
+            navigateBack = {}
         )
     }
 }
