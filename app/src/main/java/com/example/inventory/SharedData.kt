@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.inventory.ui.item.ItemDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ShareData(val text: String = "")
 
 object SharedData {
     val dataToShare: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
+    val dataToSave: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
     lateinit var preferences: Preferences
 }
 
