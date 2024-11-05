@@ -31,5 +31,6 @@ data class Item(
     val quantity: Int,
     val agentName: String,
     val agentEmail: String,
-    val agentPhoneNumber: String
+    val agentPhoneNumber: String,
+    val sourceType: String
 )

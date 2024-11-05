@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.io.File
+import java.io.FileInputStream
 
 
 class MainActivity : ComponentActivity() {
@@ -154,27 +155,27 @@ class MainActivity : ComponentActivity() {
                 outputStream.flush()
                 outputStream.close()
 
-                val encryptedFile: EncryptedFile = EncryptedFile.Builder(
-                    this,
-                    file,
-                    SharedData.preferences.masterKey,
-                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-                ).build()
-                val encryptedInputStream = encryptedFile.openFileInput()
-                val data = encryptedInputStream.readBytes()
-                encryptedInputStream.close()
+                lateinit var encryptedInputStream: FileInputStream
+                try {
+                    val encryptedFile: EncryptedFile = EncryptedFile.Builder(
+                        this,
+                        file,
+                        SharedData.preferences.masterKey,
+                        EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+                    ).build()
+                    encryptedInputStream = encryptedFile.openFileInput()
+                    val data = encryptedInputStream.readBytes()
+                    val stringData = data.toString(Charsets.UTF_8)
+                    val objectData: ItemDetails = Json.decodeFromString<ItemDetails>(stringData)
 
-                val stringData = data.toString(Charsets.UTF_8)
-                val objectData = Json.decodeFromString<ItemDetails>(stringData)
-                encryptedInputStream.close()
-
-                inputStream.close()
-
-                lifecycleScope.launch {
-                    SharedData.dataToLoad.update {
-                        it.copy(data = objectData)
+                    lifecycleScope.launch {
+                        SharedData.dataToLoad.update {
+                            it.copy(data = objectData)
+                        }
                     }
-                }
+                } catch (_: Exception) { }
+                encryptedInputStream.close()
+                inputStream.close()
             }
         }
     }

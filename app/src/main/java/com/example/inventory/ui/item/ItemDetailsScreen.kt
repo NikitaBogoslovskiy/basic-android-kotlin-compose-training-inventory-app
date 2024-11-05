@@ -297,6 +297,18 @@ fun ItemDetails(
                     hideImportantData = hideImportantData
                 )
             }
+            if (item.sourceType.isNotBlank()) {
+                ItemDetailsRow(
+                    labelResID = R.string.source_type,
+                    itemDetail = item.sourceType,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+            }
         }
 
     }
