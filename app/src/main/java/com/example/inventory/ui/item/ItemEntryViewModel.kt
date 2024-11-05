@@ -25,14 +25,30 @@ import com.example.inventory.data.Item
 import com.example.inventory.data.ItemsRepository
 import java.text.NumberFormat
 import android.util.Patterns
+import androidx.lifecycle.viewModelScope
 import com.example.inventory.Preferences
 import com.example.inventory.SharedData
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 /**
  * ViewModel to validate and insert items in the Room database.
  */
 class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            SharedData.dataToLoad.collect { collectedData ->
+                if (collectedData.needToLoad && collectedData.data != null) {
+                    itemsRepository.insertItem(collectedData.data.copy(id = 0).toItem())
+                    SharedData.dataToLoad.update { updatedData ->
+                        updatedData.copy(needToLoad = false, data = null)
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Holds current item ui state
@@ -69,6 +85,10 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
             itemsRepository.insertItem(itemUiState.itemDetails.toItem())
         }
         return isValid
+    }
+
+    suspend fun loadItem(itemDetails: ItemDetails) {
+        itemsRepository.insertItem(itemDetails.toItem())
     }
 
     private fun validateInput(itemDetails: ItemDetails = itemUiState.itemDetails): Pair<Boolean, ErrorDetails> {

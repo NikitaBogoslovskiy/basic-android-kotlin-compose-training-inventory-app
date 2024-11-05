@@ -9,9 +9,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ShareData(val text: String = "")
 
+data class LoadData(val needToLoad: Boolean = false, val data: ItemDetails? = null)
+
 object SharedData {
     val dataToShare: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
     val dataToSave: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
+    val dataToLoad: MutableStateFlow<LoadData> = MutableStateFlow(LoadData())
     lateinit var preferences: Preferences
 }
 
