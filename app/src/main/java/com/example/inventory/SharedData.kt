@@ -7,7 +7,15 @@ import androidx.security.crypto.MasterKey
 import com.example.inventory.ui.item.ItemDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 
-data class ShareData(val text: String = "")
+data class ShareData(val text: String = "") {
+    override fun equals(other: Any?): Boolean {
+        return this === other
+    }
+
+    override fun hashCode(): Int {
+        return text.hashCode()
+    }
+}
 
 data class LoadData(val needToLoad: Boolean = false, val data: ItemDetails? = null)
 
