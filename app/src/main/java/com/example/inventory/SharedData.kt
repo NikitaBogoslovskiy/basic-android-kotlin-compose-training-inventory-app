@@ -7,6 +7,13 @@ import androidx.security.crypto.MasterKey
 import com.example.inventory.ui.item.ItemDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 
+object SharedData {
+    val dataToShare: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
+    val dataToSave: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
+    val dataToLoad: MutableStateFlow<LoadData> = MutableStateFlow(LoadData())
+    lateinit var preferences: Preferences
+}
+
 data class ShareData(val text: String = "") {
     override fun equals(other: Any?): Boolean {
         return this === other
@@ -18,13 +25,6 @@ data class ShareData(val text: String = "") {
 }
 
 data class LoadData(val needToLoad: Boolean = false, val data: ItemDetails? = null)
-
-object SharedData {
-    val dataToShare: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
-    val dataToSave: MutableStateFlow<ShareData> = MutableStateFlow(ShareData())
-    val dataToLoad: MutableStateFlow<LoadData> = MutableStateFlow(LoadData())
-    lateinit var preferences: Preferences
-}
 
 class Preferences(context: Context) {
     val masterKey: MasterKey = MasterKey.Builder(context)

@@ -85,6 +85,8 @@ dependencies {
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
 
+    implementation("com.commonsware.cwac:saferoom.x:1.2.1")
+
     // Testing
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
